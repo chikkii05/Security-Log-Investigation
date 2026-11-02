@@ -1,0 +1,9 @@
+rule,ip,account,failures,start,end,followed_by_success,finding_type,accounts,attempts,avg_attempts_per_account,accounts_with_success,success_time,prior_failures_from_ip,prior_failures_on_account,first,second,gap_minutes,time,endpoint
+R1 Brute force,192.0.2.45,admin,42.0,2026-10-21 03:10:00+00:00,2026-10-21 03:15:42+00:00,2026-10-21 03:15:49,R1 Brute force,,,,,,,,,,,,
+R2 Password spraying,198.51.100.77,,,2026-10-21 02:05:00+00:00,2026-10-21 02:25:14+00:00,,R2 Password spraying,"['a.sharma', 'admin', 'd.joseph', 'finance_svc', 'guest', 'j.thomas', 'k.nair', 'l.fernandez', 'm.patel', 'p.menon', 'r.iyer', 's.kumar', 'svc_backup', 'test']",27.0,1.9,['m.patel'],,,,,,,,
+R3 Success after failures,198.51.100.77,m.patel,,,,,R3 Success after failures,,,,,2026-10-21 02:25:54+00:00,27.0,1.0,,,,,
+R3 Success after failures,192.0.2.45,admin,,,,,R3 Success after failures,,,,,2026-10-21 03:15:49+00:00,42.0,42.0,,,,,
+R4 Impossible travel,,s.kumar,,2026-10-21 05:21:15+00:00,2026-10-21 05:41:40+00:00,,R4 Impossible travel,,,,,,,,IN (203.0.113.10),BR (192.0.2.150),20.0,,
+R5 Post-compromise use,198.51.100.77,m.patel,,,,,R5 Post-compromise use,,,,,,,,,,,2026-10-21 02:32:14+00:00,/admin/export
+R5 Post-compromise use,198.51.100.77,m.patel,,,,,R5 Post-compromise use,,,,,,,,,,,2026-10-21 02:34:34+00:00,/admin/export
+R5 Post-compromise use,192.0.2.45,admin,,,,,R5 Post-compromise use,,,,,,,,,,,2026-10-21 03:17:39+00:00,/admin/users

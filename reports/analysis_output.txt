@@ -1,0 +1,46 @@
+=== DATA QUALITY / NORMALIZATION ===
+rows_read: 167
+bad_timestamps_dropped: 0
+unknown_result_labels: 0
+distinct_raw_usernames: 48
+distinct_normalized_usernames: 14
+distinct_raw_result_labels: 9
+time range (UTC): 2026-10-20 03:30:38 -> 2026-10-21 11:48:09
+outcomes: {'SUCCESS': 91, 'FAILURE': 76}
+
+=== R1 BRUTE FORCE (>=5 failures / 0 days 00:10:00, same IP+account) ===
+192.0.2.45 -> admin: 42 failures 2026-10-21 03:10:00 to 2026-10-21 03:15:42; success after: 2026-10-21 03:15:49
+
+=== R2 PASSWORD SPRAYING (>=5 accounts / 0 days 00:30:00, same IP) ===
+198.51.100.77: 14 accounts, 27 attempts, 2026-10-21 02:05:00 to 2026-10-21 02:25:14
+  accounts: a.sharma, admin, d.joseph, finance_svc, guest, j.thomas, k.nair, l.fernandez, m.patel, p.menon, r.iyer, s.kumar, svc_backup, test
+  accounts with success from this IP: ['m.patel']
+
+=== R3 SUCCESS AFTER FAILURES (likely compromised accounts) ===
+m.patel from 198.51.100.77 at 2026-10-21 02:25:54 (27 prior failures from IP, 1 on this account)
+admin from 192.0.2.45 at 2026-10-21 03:15:49 (42 prior failures from IP, 42 on this account)
+
+=== R4 IMPOSSIBLE TRAVEL ===
+s.kumar: IN (203.0.113.10) -> BR (192.0.2.150), 20 min apart (2026-10-21 05:21:15 / 2026-10-21 05:41:40)
+
+=== R5 POST-COMPROMISE SENSITIVE ACTIVITY ===
+2026-10-21 02:32:14 m.patel from 198.51.100.77 -> /admin/export
+2026-10-21 02:34:34 m.patel from 198.51.100.77 -> /admin/export
+2026-10-21 03:17:39 admin from 192.0.2.45 -> /admin/users
+
+=== BENIGN / BELOW-THRESHOLD FAILURE BURSTS (3+ failures, not flagged) ===
+203.0.113.55 -> d.joseph: 4 failures (below threshold of 5)
+
+=== RECONSTRUCTED TIMELINE (UTC) ===
+2026-10-21 02:05:00  Password spray begins from 198.51.100.77 (1.9 guesses/account)
+2026-10-21 02:25:14  Spray reaches 14 accounts, 27 failed attempts
+2026-10-21 02:25:54  SUCCESS: m.patel from 198.51.100.77 after 27 failures from that IP
+2026-10-21 02:32:14  Sensitive endpoint /admin/export used by m.patel from 198.51.100.77
+2026-10-21 02:34:34  Sensitive endpoint /admin/export used by m.patel from 198.51.100.77
+2026-10-21 03:10:00  Brute force on 'admin' from 192.0.2.45 starts
+2026-10-21 03:15:42  Brute force ends: 42 failures in window; success follows: 2026-10-21 03:15:49
+2026-10-21 03:15:49  SUCCESS: admin from 192.0.2.45 after 42 failures from that IP
+2026-10-21 03:17:39  Sensitive endpoint /admin/users used by admin from 192.0.2.45
+2026-10-21 05:41:40  Impossible travel: s.kumar IN (203.0.113.10) -> BR (192.0.2.150) in 20 min
+
+[+] Wrote reports/timeline.csv and reports/findings.csv
